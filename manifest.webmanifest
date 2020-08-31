@@ -1,7 +1,7 @@
 {
   "name": "Jogo das Cores",
   "short_name": "Jogo das cores",
-  "start_url": ".",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#fff",
   "description": "Jogo das cores pros meninos.",
