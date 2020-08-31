@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo das Cores</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header h1 {
+      text-align: center;
+    }
+
+    .mark {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 2px 2px 4px rgba(0,0,0,.4),
+        -2px -2px 2px rgba(255, 255, 255, .8),
+        inset 8px 8px 24px rgba(255, 255, 255, .4);
+    }
+
+    .big {
+      width: 200px;
+      height: 200px;
+    }
+
+    .ice {
+      background: #ac7aca;
+    }
+
+    .light {
+      background: #dcb20e;
+    }
+
+    .fire {
+      background: #e20505;
+    }
+
+    .water {
+      background: #72b0d6;
+    }
+
+    .rules {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+    }
+
+    .rule {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      margin: 1rem;
+    }
+    .rule span {
+      font-size: 36px;
+      display: inline-block;
+      padding: 0 1rem;
+    }
+
+    .color-picker {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .button-container {
+      margin-top: -2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .button-container button {
+      padding: 1rem;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Jogo das Cores</h1>
+  </header>
+  <div class="rules">
+    <div class="rule">
+      <div class="mark water"></div><span>►</span><div class="mark fire"></div>
+    </div>
+    <div class="rule">
+      <div class="mark fire"></div><span>►</span><div class="mark ice"></div>
+    </div>
+    <div class="rule">
+      <div class="mark ice"></div><span>►</span><div class="mark light"></div>
+    </div>
+    <div class="rule">
+      <div class="mark light"></div><span>►</span><div class="mark water"></div>
+    </div>
+  </div>
+  <div class="color-picker">
+    <div class="mark big" id="change-mark"></div>
+  </div>
+  <div class="button-container">
+    <button id="color-button">Escolher cor</button>
+  </div>
+</body>
+<script>
+  (function () {
+    const colorButton = document.getElementById('color-button');
+    const mark = document.getElementById('change-mark');
+    const colors = ['water', 'ice', 'fire', 'light'];
+
+    colorButton.addEventListener('click', () => {
+      colorButton.attributes.disabled = "true";
+      runColor().then((chosenColor) => {
+        colors.forEach(c => mark.classList.remove(c));
+        mark.classList.add(chosenColor);
+        colorButton.attributes.disabled = null;
+      });
+    })
+
+    function runColor() {
+      return new Promise((res, rej) => {
+        setTimeout(() => {
+          res(colors[Math.floor(Math.random() * 4)])
+        }, 1300);
+        let idx = 0;
+        let time = 0;
+        let itv = setInterval(() => {
+          colors.forEach(c => mark.classList.remove(c));
+          mark.classList.add(colors[idx]);
+          idx = idx === 3 ? 0 : idx + 1;
+          if (time > 1000) {
+            clearInterval(itv);
+          }
+          time += 100;
+        }, 100);
+      })
+    }
+  })()
+</script>
+</html>
